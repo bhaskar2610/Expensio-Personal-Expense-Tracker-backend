@@ -27,6 +27,7 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 	expenseHandler := handlers.NewExpenseHandler()
 	tripHandler := handlers.NewTripHandler()
 	dashboardHandler := handlers.NewDashboardHandler()
+	reportHandler := handlers.NewReportHandler()
 
 	// Public routes
 	auth := r.Group("/auth")
@@ -63,6 +64,12 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 		{
 			dashboard.GET("/summary", dashboardHandler.GetSummary)
 			dashboard.GET("/pie-chart", dashboardHandler.GetPieChart)
+		}
+
+		// Reports
+		reports := protected.Group("/reports")
+		{
+			reports.GET("/export", reportHandler.ExportMonthlyReport)
 		}
 	}
 
